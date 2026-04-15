@@ -129,97 +129,8 @@ nav button.act{color:var(--gold);border-bottom-color:var(--gold)}
 </style>
 <!-- 86LIST:["whispering angel chateau d esclans"]:86LIST -->
 <!-- BRIEFING:{} :BRIEFING -->
-<script>
-function get86List(){
-  var src=document.documentElement.outerHTML;
-  var m='<!-- 86LIST:';var e=':86LIST -->';
-  var s=src.indexOf(m);if(s===-1)return[];
-  var ei=src.indexOf(e,s);
-  var raw=src.slice(s+m.length,ei).trim();
-  if(!raw||raw==='[]')return[];
-  try{return JSON.parse(raw);}catch(ex){return[];}
-}
-function getBriefing(){
-  var src=document.documentElement.outerHTML;
-  var m='<!-- BRIEFING:';var e=':BRIEFING -->';
-  var s=src.indexOf(m);if(s===-1)return null;
-  var ei=src.indexOf(e,s);
-  var raw=src.slice(s+m.length,ei).trim();
-  if(!raw||raw==='{}')return null;
-  try{
-    var obj=JSON.parse(raw);
-    if(obj.date&&obj.date!==new Date().toDateString())return null;
-    return obj;
-  }catch(ex){return null;}
-}
-function render86Board(){
-  var list=get86List();
-  var banner=document.getElementById('esb');
-  var items=document.getElementById('esb-items');
-  var b86=document.getElementById('briefing-86-list');
-  if(!banner)return;
-  if(!list||list.length===0){
-    banner.classList.remove('active');
-    if(b86)b86.innerHTML='<span style="font-size:13px;color:var(--grey)">Nothing is 86'd right now.</span>';
-  }else{
-    banner.classList.add('active');
-    if(items)items.innerHTML=list.map(function(n){return'<div class="esb-item">⛔ '+n+'</div>';}).join('');
-    if(b86)b86.innerHTML=list.map(function(n){
-      return'<div style="padding:8px 0;border-bottom:1px solid var(--lgrey);display:flex;align-items:center;gap:8px">'+
-      '<span style="color:#c0392b;font-size:16px">⛔</span>'+
-      '<span style="font-size:13px;color:#c0392b;font-weight:600">'+n+'</span></div>';
-    }).join('');
-  }
-  document.querySelectorAll('.wi').forEach(function(el){
-var is86d=list.some(function(n){
-  function s(str){
-    return str.toLowerCase()
-      .replace(/[àáâãäå]/g,'a')
-      .replace(/[èéêë]/g,'e')
-      .replace(/[ìíîï]/g,'i')
-      .replace(/[òóôõö]/g,'o')
-      .replace(/[ùúûü]/g,'u')
-      .replace(/[ç]/g,'c')
-      .replace(/[^a-z0-9 ]/g,' ')
-      .replace(/\s+/g,' ').trim();
-  }
-  var a=s(n);var b=s(wn);
-  return b.includes(a.slice(0,10))||a.includes(b.slice(0,10));
-});
-  var a=n.toLowerCase().replace(/[^a-z0-9 ]/g,'').trim();
-  var b=wn.replace(/[^a-z0-9 ]/g,'').trim();
-  return a.length>3&&(b.includes(a.slice(0,12))||a.includes(b.slice(0,12)));
-});    if(is86d){
-      el.classList.add('eighty-sixed');
-      if(!el.querySelector('.badge-86')){
-        var b=document.createElement('span');b.className='badge-86';b.textContent='86'D';
-        var chev=el.querySelector('.chev');if(chev)el.insertBefore(b,chev);
-      }
-    }else{
-      el.classList.remove('eighty-sixed');
-      var b=el.querySelector('.badge-86');if(b)b.remove();
-    }
-  });
-}
-function renderBriefing(){
-  var briefing=getBriefing();
-  var banner=document.getElementById('briefing-banner');
-  var body=document.getElementById('briefing-body');
-  var btime=document.getElementById('briefing-time');
-  var fullBody=document.getElementById('briefing-full-body');
-  var fullTime=document.getElementById('briefing-full-time');
-  if(briefing&&briefing.text){
-    if(banner)banner.classList.add('active');
-    if(body)body.textContent=briefing.text;
-    if(btime)btime.textContent=briefing.time||'';
-    if(fullBody){fullBody.textContent=briefing.text;fullBody.style.fontStyle='normal';}
-    if(fullTime)fullTime.textContent=briefing.time||'';
-  }else{
-    if(banner)banner.classList.remove('active');
-    if(fullBody){fullBody.textContent='No briefing has been set for today.';fullBody.style.fontStyle='italic';}
-  }
-}
-</script>
+<!-- 86LIST:[] :86LIST -->
+<!-- BRIEFING:{} :BRIEFING -->
 </head>
 <body>
 <div id="app">
@@ -306,6 +217,115 @@ function renderBriefing(){
       <div id="wcats"></div>
     </div>
     <div id="dv" style="display:none"></div>
+  </div>
+  <div id="tab-classics" style="display:none">
+    <div class="home-hero"><h2>Classic Cocktails</h2><p>Staff explainer guide · What's in it & how to sell it</p></div>
+    <div style="padding:14px">
+
+      <div class="ds"><div class="dsh"><span>🍸</span><h3>Martini</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"The king of cocktails — cold, strong and endlessly elegant."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> Gin (or Vodka) stirred with dry Vermouth, served in a chilled coupe or martini glass. Garnished with an olive or lemon twist.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> "Dry" = less vermouth. "Dirty" = splash of olive brine. "Perfect" = equal dry & sweet vermouth. "Wet" = more vermouth.</p>
+      </div></div>
+
+      <div class="ds"><div class="dsh"><span>🥃</span><h3>Old Fashioned</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"The original cocktail — whiskey, sugar, bitters. Nothing more."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> Bourbon or Rye whiskey, sugar syrup, Angostura bitters, stirred over a large ice cube. Orange peel garnish.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> Stirred, never shaken — shaking dilutes and clouds it. The big ice cube melts slowly to keep it cold without watering it down.</p>
+      </div></div>
+
+      <div class="ds"><div class="dsh"><span>🍹</span><h3>Negroni</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"Bitter, boozy and beautiful — it's an acquired taste that becomes an obsession."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> Equal parts Gin, Campari and Sweet Vermouth. Stirred, served over ice with an orange peel twist.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> "Boulevardier" = a Negroni with Bourbon instead of Gin. "Negroni Sbagliato" = Prosecco instead of Gin (lighter & fizzy).</p>
+      </div></div>
+
+      <div class="ds"><div class="dsh"><span>🍋</span><h3>Whiskey Sour</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"The perfect gateway cocktail — balanced, fresh and crowd-pleasing."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> Bourbon, fresh lemon juice, sugar syrup, egg white (optional for froth). Shaken hard, served over ice or up.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> "With egg white" = silky foam on top (called a "Boston Sour"). "Amaretto Sour" = Amaretto instead of whiskey — sweeter and softer.</p>
+      </div></div>
+
+      <div class="ds"><div class="dsh"><span>🌿</span><h3>Mojito</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"Cuba's most famous export — fresh, minty and effortlessly refreshing."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> White rum, fresh lime juice, sugar syrup, fresh mint, soda water. Built in the glass over crushed ice.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> "Muddled" = the mint is gently pressed (not crushed) to release oils without bitterness. Always use fresh lime — never cordial.</p>
+      </div></div>
+
+      <div class="ds"><div class="dsh"><span>🍊</span><h3>Aperol Spritz</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"Italy in a glass — light, bittersweet and made for aperitivo hour."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> 3 parts Prosecco, 2 parts Aperol, 1 part soda water. Served over ice in a large wine glass with an orange slice.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> Aperol is an Italian bitter liqueur (11% ABV) made from bitter orange, rhubarb and herbs. Low alcohol — one of the most session-friendly cocktails.</p>
+      </div></div>
+
+      <div class="ds"><div class="dsh"><span>🍸</span><h3>Espresso Martini</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"The drink that wakes you up and winds you down at the same time."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> Vodka, fresh espresso, coffee liqueur (Kahlúa or similar), sugar syrup. Shaken hard to create the signature frothy foam on top.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> Invented by Dick Bradsell in London in 1983 when a model asked for something to "wake me up, then f*** me up." The three coffee beans on top are for health, wealth and happiness.</p>
+      </div></div>
+
+      <div class="ds"><div class="dsh"><span>🥂</span><h3>French 75</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"Champagne's greatest cocktail — celebratory, elegant and dangerously drinkable."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> Gin (or Cognac), fresh lemon juice, sugar syrup, topped with Champagne. Served in a flute with a lemon twist.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> Named after a French 75mm field gun used in WWI — "it hits with remarkable precision." The Cognac version is the original New Orleans style.</p>
+      </div></div>
+
+      <div class="ds"><div class="dsh"><span>🌶️</span><h3>Bloody Mary</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"The only cocktail you can eat — a meal and a drink in one."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> Vodka, tomato juice, lemon juice, Worcestershire sauce, Tabasco, celery salt, black pepper. Served over ice with a celery stalk.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> "Virgin Mary" = no alcohol. "Bloody Caesar" = clamato juice instead of tomato. Spice level is always adjustable — always ask the guest.</p>
+      </div></div>
+
+      <div class="ds"><div class="dsh"><span>🍹</span><h3>Pornstar Martini</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"The most ordered cocktail in Ireland — sweet, tropical and impossible to say no to."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> Vanilla vodka, Passoa (passionfruit liqueur), fresh passion fruit, vanilla syrup, dash of lime juice. Shaken and served straight up in a coupe glass with a shot of Prosecco on the side.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> The Prosecco shot on the side is part of the ritual — guests can sip it between sips of the cocktail or pour it in. Invented by Douglas Ankrah in London in 2002. The name is deliberately provocative to make it memorable.</p>
+      </div></div>
+
+      <div class="ds"><div class="dsh"><span>☕</span><h3>Irish Coffee</h3></div>
+      <div style="padding:13px 15px">
+        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--charcoal);line-height:1.6;border-left:3px solid var(--gold);padding-left:12px;margin-bottom:10px">"Ireland's greatest contribution to cocktail culture — warm, whiskey-spiked coffee under a cloud of cream."</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">What's in it:</strong> Irish whiskey, hot black coffee, brown sugar syrup, topped with lightly whipped double cream poured over the back of a spoon to float on top. Served in a warmed glass.</p>
+        <p style="font-size:12px;color:var(--grey);line-height:1.6;margin-bottom:8px"><strong style="color:var(--ivy)">Key terms:</strong> The cream must float — it's sipped through, not stirred in. Invented at Foynes Airport, County Limerick in 1943 by chef Joe Sheridan to warm passengers after a transatlantic flight was turned back by storms. The Ivy Irish Coffee uses Jameson Caskmates Stout Edition for an extra layer of depth.</p>
+      </div></div>
+
+    </div>
+  </div>
+
+  <div id="tab-spirits" style="display:none">
+    <div class="home-hero"><h2>Daily Briefing</h2><p>Updated by management · Resets at midnight</p></div>
+    <div style="padding:16px">
+      <div style="background:var(--white);border-radius:12px;box-shadow:0 1px 8px rgba(0,0,0,.06);overflow:hidden;margin-bottom:14px">
+        <div style="background:var(--ivy);padding:12px 16px;display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:8px"><span>📋</span><span style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)">Tonight's Briefing</span></div>
+          <span id="briefing-full-time" style="font-size:9px;color:rgba(249,245,238,.4)"></span>
+        </div>
+        <div id="briefing-full-body" style="padding:18px 16px;font-size:13px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--charcoal);line-height:1.7;white-space:pre-wrap">No briefing has been set for today.</div>
+      </div>
+      <div style="background:var(--white);border-radius:12px;box-shadow:0 1px 8px rgba(0,0,0,.06);overflow:hidden;margin-bottom:14px">
+        <div style="background:var(--ivy);padding:12px 16px;display:flex;align-items:center;gap:8px">
+          <span>⛔</span><span style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)">86'd Tonight</span>
+        </div>
+        <div id="briefing-86-list" style="padding:14px 16px">
+          <span style="font-size:13px;color:var(--grey)">Nothing is 86'd right now.</span>
+        </div>
+      </div>
+      <div style="padding:12px 14px;background:var(--ivory-d);border-radius:10px;font-size:10px;color:var(--grey);line-height:1.7;text-align:center">
+        Manager updates via Slack:<br>
+        <strong style="color:var(--ivy)">"Set briefing: VIP on table 6, push the Brunello"</strong><br>
+        <strong style="color:#c0392b">"86 the Barolo"</strong> &nbsp;·&nbsp; <strong style="color:var(--ivy-mid)">"Unblock the Barolo"</strong>
+      </div>
+    </div>
   </div>
   <div id="tab-classics" style="display:none">
     <div class="home-hero"><h2>Classic Cocktails</h2><p>Staff explainer guide · What's in it & how to sell it</p></div>
@@ -543,79 +563,21 @@ let cWine=null;
 const catOrder=['champagne-bottle','white','rose','red','dessert'];
 
 
-// ── 86 & BRIEFING STATE ──
-function loadState(){
-  try{
-    const r=localStorage.getItem('ivyState');
-    if(!r)return{eightySixed:[],briefing:null,briefingTime:null,briefingDate:null};
-    return JSON.parse(r);
-  }catch(e){return{eightySixed:[],briefing:null,briefingTime:null,briefingDate:null};}
-}
-function saveState(s){localStorage.setItem('ivyState',JSON.stringify(s));}
-function getState(){
-  const s=loadState();
-  const today=new Date().toDateString();
-  if(s.briefingDate!==today){s.briefing=null;s.briefingTime=null;s.briefingDate=today;saveState(s);}
-  return s;
-}
-function render86Board(){
-  const s=getState();
-  const banner=document.getElementById('esb');
-  const items=document.getElementById('esb-items');
-  const list=document.getElementById('briefing-86-list');
-  if(!s.eightySixed||s.eightySixed.length===0){
-    banner.classList.remove('active');
-    if(list)list.innerHTML='<span style="font-size:13px;color:var(--grey)">Nothing is 86\'d right now.</span>';
-  }else{
-    banner.classList.add('active');
-    if(items)items.innerHTML=s.eightySixed.map(n=>'<div class="esb-item">⛔ '+n+'</div>').join('');
-    if(list)list.innerHTML=s.eightySixed.map(n=>'<div style="padding:8px 0;border-bottom:1px solid var(--lgrey);display:flex;align-items:center;gap:8px"><span style="color:#c0392b;font-size:16px">⛔</span><span style="font-size:13px;color:#c0392b;font-weight:600">'+n+'</span></div>').join('');
-  }
-  // Badge wines in list
-  document.querySelectorAll('.wi').forEach(el=>{
-    const nameEl=el.querySelector('h4');
-    if(!nameEl)return;
-    const wn=nameEl.textContent.trim().toLowerCase();
-    const is86d=s.eightySixed.some(n=>wn.includes(n.toLowerCase())||n.toLowerCase().includes(wn));
-    if(is86d){
-      el.classList.add('eighty-sixed');
-      if(!el.querySelector('.badge-86')){const b=document.createElement('span');b.className='badge-86';b.textContent='86\'D';const chev=el.querySelector('.chev');if(chev)el.insertBefore(b,chev);}
-    }else{
-      el.classList.remove('eighty-sixed');
-      const b=el.querySelector('.badge-86');if(b)b.remove();
-    }
-  });
-}
-function renderBriefing(){
-  const s=getState();
-  const banner=document.getElementById('briefing-banner');
-  const body=document.getElementById('briefing-body');
-  const btime=document.getElementById('briefing-time');
-  const fullBody=document.getElementById('briefing-full-body');
-  const fullTime=document.getElementById('briefing-full-time');
-  if(s.briefing){
-    banner.classList.add('active');
-    if(body)body.textContent=s.briefing;
-    if(btime)btime.textContent=s.briefingTime||'';
-    if(fullBody){fullBody.textContent=s.briefing;fullBody.style.fontStyle='normal';}
-    if(fullTime)fullTime.textContent=s.briefingTime||'';
-  }else{
-    banner.classList.remove('active');
-    if(fullBody){fullBody.textContent='No briefing has been set for today.';fullBody.style.fontStyle='italic';}
-  }
-}
-function handleUrlCommands(){
-  const p=new URLSearchParams(window.location.search);
-  if(!p.toString())return;
-  const s=getState();
-  if(p.has('86')){const n=decodeURIComponent(p.get('86'));if(!s.eightySixed.includes(n))s.eightySixed.push(n);saveState(s);}
-  if(p.has('unblock')){const n=decodeURIComponent(p.get('unblock'));s.eightySixed=s.eightySixed.filter(x=>x!==n);saveState(s);}
-  if(p.has('briefing')){s.briefing=decodeURIComponent(p.get('briefing'));s.briefingTime=p.get('time')||new Date().toLocaleTimeString('en-IE',{hour:'2-digit',minute:'2-digit'});s.briefingDate=new Date().toDateString();saveState(s);}
-  if(p.has('clearbriefing')){s.briefing=null;s.briefingTime=null;saveState(s);}
-  saveState(s);
-  window.history.replaceState({},'',window.location.pathname);
-}
-function init(){buildList();render86Board();renderBriefing();}
+
+// ── CLASSIC COCKTAIL DATA for global search ──
+const CLASSICS=[
+  {name:'Martini',desc:'Gin or Vodka stirred with dry Vermouth. Dry = less vermouth, Dirty = olive brine, Perfect = equal dry & sweet.'},
+  {name:'Old Fashioned',desc:'Bourbon or Rye, sugar syrup, Angostura bitters over a large ice cube. Orange peel garnish. Never shaken.'},
+  {name:'Negroni',desc:'Equal parts Gin, Campari and Sweet Vermouth. Stirred, over ice, orange peel twist.'},
+  {name:'Whiskey Sour',desc:'Bourbon, fresh lemon juice, sugar syrup, egg white (optional). Shaken, served over ice or up.'},
+  {name:'Mojito',desc:'White rum, fresh lime juice, sugar syrup, fresh mint, soda water. Built over crushed ice.'},
+  {name:'Aperol Spritz',desc:'3 parts Prosecco, 2 parts Aperol, 1 part soda water. Served over ice with orange slice.'},
+  {name:'Espresso Martini',desc:'Vodka, fresh espresso, coffee liqueur, sugar syrup. Shaken hard for the frothy foam.'},
+  {name:'French 75',desc:'Gin or Cognac, fresh lemon juice, sugar syrup, topped with Champagne. Served in a flute.'},
+  {name:'Bloody Mary',desc:'Vodka, tomato juice, lemon juice, Worcestershire, Tabasco, celery salt. Served over ice with celery.'},
+  {name:'Pornstar Martini',desc:'Vanilla vodka, Passoa, fresh passion fruit, vanilla syrup, lime. Served up with a Prosecco shot on the side.'},
+  {name:'Irish Coffee',desc:'Irish whiskey, hot black coffee, brown sugar, topped with lightly whipped cream floated on top. Served warm.'},
+];
 
 function showTab(t,btn){
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('act'));
@@ -950,19 +912,7 @@ function clrSpiritSearch(){
 }
 
 // ── CLASSIC COCKTAIL DATA for global search ──
-const CLASSICS=[
-  {name:'Martini',desc:'Gin or Vodka stirred with dry Vermouth. Dry = less vermouth, Dirty = olive brine, Perfect = equal dry & sweet.'},
-  {name:'Old Fashioned',desc:'Bourbon or Rye, sugar syrup, Angostura bitters over a large ice cube. Orange peel garnish. Never shaken.'},
-  {name:'Negroni',desc:'Equal parts Gin, Campari and Sweet Vermouth. Stirred, over ice, orange peel twist.'},
-  {name:'Whiskey Sour',desc:'Bourbon, fresh lemon juice, sugar syrup, egg white (optional). Shaken, served over ice or up.'},
-  {name:'Mojito',desc:'White rum, fresh lime juice, sugar syrup, fresh mint, soda water. Built over crushed ice.'},
-  {name:'Aperol Spritz',desc:'3 parts Prosecco, 2 parts Aperol, 1 part soda water. Served over ice with orange slice.'},
-  {name:'Espresso Martini',desc:'Vodka, fresh espresso, coffee liqueur, sugar syrup. Shaken hard for the frothy foam.'},
-  {name:'French 75',desc:'Gin or Cognac, fresh lemon juice, sugar syrup, topped with Champagne. Served in a flute.'},
-  {name:'Bloody Mary',desc:'Vodka, tomato juice, lemon juice, Worcestershire, Tabasco, celery salt. Served over ice with celery.'},
-  {name:'Pornstar Martini',desc:'Vanilla vodka, Passoa, fresh passion fruit, vanilla syrup, lime. Served up with a Prosecco shot on the side.'},
-  {name:'Irish Coffee',desc:'Irish whiskey, hot black coffee, brown sugar, topped with lightly whipped cream floated on top. Served warm.'},
-];
+
 
 function doGlobalSearch(q){
   q=q.trim().toLowerCase();
@@ -1068,6 +1018,66 @@ function clrGlobalSearch(){
   doGlobalSearch('');
   inp.focus();
 }
+
+function get86List(){
+  var src=document.documentElement.outerHTML;
+  var m='<!-- 86LIST:';var e=':86LIST -->';
+  var s=src.indexOf(m);if(s===-1)return[];
+  var ei=src.indexOf(e,s);
+  var raw=src.slice(s+m.length,ei).trim();
+  if(!raw||raw==='[]')return[];
+  try{return JSON.parse(raw);}catch(ex){return[];}
+}
+function getBriefing(){
+  var src=document.documentElement.outerHTML;
+  var m='<!-- BRIEFING:';var e=':BRIEFING -->';
+  var s=src.indexOf(m);if(s===-1)return null;
+  var ei=src.indexOf(e,s);
+  var raw=src.slice(s+m.length,ei).trim();
+  if(!raw||raw==='{}')return null;
+  try{var obj=JSON.parse(raw);if(obj.date&&obj.date!==new Date().toDateString())return null;return obj;}catch(ex){return null;}
+}
+function render86Board(){
+  var list=get86List();
+  var banner=document.getElementById('esb');
+  var items=document.getElementById('esb-items');
+  var b86=document.getElementById('briefing-86-list');
+  if(!banner)return;
+  if(!list||list.length===0){
+    banner.classList.remove('active');
+    if(b86)b86.innerHTML='<span style="font-size:13px;color:var(--grey)">Nothing is 86\'d right now.</span>';
+  }else{
+    banner.classList.add('active');
+    if(items)items.innerHTML=list.map(function(n){return'<div class="esb-item">⛔ '+n+'</div>';}).join('');
+    if(b86)b86.innerHTML=list.map(function(n){return'<div style="padding:8px 0;border-bottom:1px solid var(--lgrey);display:flex;align-items:center;gap:8px"><span style="color:#c0392b;font-size:16px">⛔</span><span style="font-size:13px;color:#c0392b;font-weight:600">'+n+'</span></div>';}).join('');
+  }
+  document.querySelectorAll('.wi').forEach(function(el){
+    var nameEl=el.querySelector('h4');if(!nameEl)return;
+    var wn=nameEl.textContent.trim().toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
+    var is86d=list.some(function(n){var a=n.toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();return wn.slice(0,12)===a.slice(0,12)||wn.includes(a.slice(0,8))||a.includes(wn.slice(0,8));});
+    if(is86d){el.classList.add('eighty-sixed');if(!el.querySelector('.badge-86')){var b=document.createElement('span');b.className='badge-86';b.textContent="86'D";var chev=el.querySelector('.chev');if(chev)el.insertBefore(b,chev);}}
+    else{el.classList.remove('eighty-sixed');var b=el.querySelector('.badge-86');if(b)b.remove();}
+  });
+}
+function renderBriefing(){
+  var briefing=getBriefing();
+  var banner=document.getElementById('briefing-banner');
+  var body=document.getElementById('briefing-body');
+  var btime=document.getElementById('briefing-time');
+  var fullBody=document.getElementById('briefing-full-body');
+  var fullTime=document.getElementById('briefing-full-time');
+  if(briefing&&briefing.text){
+    if(banner)banner.classList.add('active');
+    if(body)body.textContent=briefing.text;
+    if(btime)btime.textContent=briefing.time||'';
+    if(fullBody){fullBody.textContent=briefing.text;fullBody.style.fontStyle='normal';}
+    if(fullTime)fullTime.textContent=briefing.time||'';
+  }else{
+    if(banner)banner.classList.remove('active');
+    if(fullBody){fullBody.textContent='No briefing has been set for today.';fullBody.style.fontStyle='italic';}
+  }
+}
+function init(){buildList();render86Board();renderBriefing();}
 
 init();
 </script>
