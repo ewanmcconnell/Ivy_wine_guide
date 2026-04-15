@@ -127,7 +127,7 @@ nav button.act{color:var(--gold);border-bottom-color:var(--gold)}
 .wi.eighty-sixed h4{color:#aaa;text-decoration:line-through}
 .badge-86{background:#c0392b;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:.08em;flex-shrink:0}
 </style>
-<!-- 86LIST:["Whispering Angel Château d'Esclans"]:86LIST -->
+<!-- 86LIST:["Whispering Angel Château d\\","Whispering Angel Château d'Esclans"]:86LIST -->
 <!-- BRIEFING:{} :BRIEFING -->
 <script>
 function get86List(){
@@ -173,8 +173,11 @@ function render86Board(){
   document.querySelectorAll('.wi').forEach(function(el){
     var nameEl=el.querySelector('h4');if(!nameEl)return;
     var wn=nameEl.textContent.trim().toLowerCase();
-    var is86d=list.some(function(n){return wn.includes(n.toLowerCase())||n.toLowerCase().includes(wn);});
-    if(is86d){
+var is86d=list.some(function(n){
+  var a=n.toLowerCase().replace(/[^a-z0-9 ]/g,'').trim();
+  var b=wn.replace(/[^a-z0-9 ]/g,'').trim();
+  return a.length>3&&(b.includes(a.slice(0,12))||a.includes(b.slice(0,12)));
+});    if(is86d){
       el.classList.add('eighty-sixed');
       if(!el.querySelector('.badge-86')){
         var b=document.createElement('span');b.className='badge-86';b.textContent='86'D';
