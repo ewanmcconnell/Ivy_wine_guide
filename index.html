@@ -127,6 +127,84 @@ nav button.act{color:var(--gold);border-bottom-color:var(--gold)}
 .wi.eighty-sixed h4{color:#aaa;text-decoration:line-through}
 .badge-86{background:#c0392b;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:.08em;flex-shrink:0}
 </style>
+<!-- 86LIST:[] :86LIST -->
+<!-- BRIEFING:{} :BRIEFING -->
+<script>
+function get86List(){
+  var src=document.documentElement.outerHTML;
+  var m='<!-- 86LIST:';var e=':86LIST -->';
+  var s=src.indexOf(m);if(s===-1)return[];
+  var ei=src.indexOf(e,s);
+  var raw=src.slice(s+m.length,ei).trim();
+  if(!raw||raw==='[]')return[];
+  try{return JSON.parse(raw);}catch(ex){return[];}
+}
+function getBriefing(){
+  var src=document.documentElement.outerHTML;
+  var m='<!-- BRIEFING:';var e=':BRIEFING -->';
+  var s=src.indexOf(m);if(s===-1)return null;
+  var ei=src.indexOf(e,s);
+  var raw=src.slice(s+m.length,ei).trim();
+  if(!raw||raw==='{}')return null;
+  try{
+    var obj=JSON.parse(raw);
+    if(obj.date&&obj.date!==new Date().toDateString())return null;
+    return obj;
+  }catch(ex){return null;}
+}
+function render86Board(){
+  var list=get86List();
+  var banner=document.getElementById('esb');
+  var items=document.getElementById('esb-items');
+  var b86=document.getElementById('briefing-86-list');
+  if(!banner)return;
+  if(!list||list.length===0){
+    banner.classList.remove('active');
+    if(b86)b86.innerHTML='<span style="font-size:13px;color:var(--grey)">Nothing is 86'd right now.</span>';
+  }else{
+    banner.classList.add('active');
+    if(items)items.innerHTML=list.map(function(n){return'<div class="esb-item">⛔ '+n+'</div>';}).join('');
+    if(b86)b86.innerHTML=list.map(function(n){
+      return'<div style="padding:8px 0;border-bottom:1px solid var(--lgrey);display:flex;align-items:center;gap:8px">'+
+      '<span style="color:#c0392b;font-size:16px">⛔</span>'+
+      '<span style="font-size:13px;color:#c0392b;font-weight:600">'+n+'</span></div>';
+    }).join('');
+  }
+  document.querySelectorAll('.wi').forEach(function(el){
+    var nameEl=el.querySelector('h4');if(!nameEl)return;
+    var wn=nameEl.textContent.trim().toLowerCase();
+    var is86d=list.some(function(n){return wn.includes(n.toLowerCase())||n.toLowerCase().includes(wn);});
+    if(is86d){
+      el.classList.add('eighty-sixed');
+      if(!el.querySelector('.badge-86')){
+        var b=document.createElement('span');b.className='badge-86';b.textContent='86'D';
+        var chev=el.querySelector('.chev');if(chev)el.insertBefore(b,chev);
+      }
+    }else{
+      el.classList.remove('eighty-sixed');
+      var b=el.querySelector('.badge-86');if(b)b.remove();
+    }
+  });
+}
+function renderBriefing(){
+  var briefing=getBriefing();
+  var banner=document.getElementById('briefing-banner');
+  var body=document.getElementById('briefing-body');
+  var btime=document.getElementById('briefing-time');
+  var fullBody=document.getElementById('briefing-full-body');
+  var fullTime=document.getElementById('briefing-full-time');
+  if(briefing&&briefing.text){
+    if(banner)banner.classList.add('active');
+    if(body)body.textContent=briefing.text;
+    if(btime)btime.textContent=briefing.time||'';
+    if(fullBody){fullBody.textContent=briefing.text;fullBody.style.fontStyle='normal';}
+    if(fullTime)fullTime.textContent=briefing.time||'';
+  }else{
+    if(banner)banner.classList.remove('active');
+    if(fullBody){fullBody.textContent='No briefing has been set for today.';fullBody.style.fontStyle='italic';}
+  }
+}
+</script>
 </head>
 <body>
 <div id="app">
@@ -522,7 +600,7 @@ function handleUrlCommands(){
   saveState(s);
   window.history.replaceState({},'',window.location.pathname);
 }
-function init(){handleUrlCommands();buildList();render86Board();renderBriefing();}
+function init(){buildList();render86Board();renderBriefing();}
 
 function showTab(t,btn){
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('act'));
