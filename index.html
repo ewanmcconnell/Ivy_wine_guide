@@ -127,7 +127,7 @@ nav button.act{color:var(--gold);border-bottom-color:var(--gold)}
 .wi.eighty-sixed h4{color:#aaa;text-decoration:line-through}
 .badge-86{background:#c0392b;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:.08em;flex-shrink:0}
 </style>
-<!-- 86LIST:[]:86LIST -->
+<!-- 86LIST:["whispering angel chateau d esclans"]:86LIST -->
 <!-- BRIEFING:{} :BRIEFING -->
 <!-- 86LIST:[] :86LIST -->
 <!-- BRIEFING:{} :BRIEFING -->
@@ -1079,7 +1079,28 @@ function renderBriefing(){
 }
 function init(){buildList();render86Board();renderBriefing();}
 
+// ── Auto-refresh to pick up 86s and briefing updates ──
+// 3 minutes on home screen, 10 minutes on other screens
+function startAutoRefresh(){
+  setInterval(function(){
+    var homeTab=document.getElementById('tab-home');
+    var onHome=homeTab&&homeTab.style.display!=='none';
+    if(onHome){
+      window.location.reload();
+    }
+  }, 3*60*1000);
+
+  setInterval(function(){
+    var homeTab=document.getElementById('tab-home');
+    var onHome=homeTab&&homeTab.style.display!=='none';
+    if(!onHome){
+      window.location.reload();
+    }
+  }, 10*60*1000);
+}
+
 init();
+startAutoRefresh();
 </script>
 </body>
 </html>
