@@ -129,6 +129,20 @@ nav button.act{color:var(--gold);border-bottom-color:var(--gold)}
 .wi.eighty-sixed{background:#fff5f5;border-left:3px solid #c0392b}
 .wi.eighty-sixed h4{color:#aaa;text-decoration:line-through}
 .badge-86{background:#c0392b;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:.08em;flex-shrink:0}
+
+/* ── BOOKINGS CARD ── */
+.bookings-card{background:var(--white);border-radius:12px;margin:0 16px 0;box-shadow:0 1px 8px rgba(0,0,0,.06);overflow:hidden}
+.bookings-header{background:var(--ivy);padding:10px 16px;display:flex;align-items:center;gap:8px}
+.bookings-header h3{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.bookings-date{font-size:9px;color:rgba(249,245,238,.4);margin-left:auto}
+.bookings-grid{display:grid;grid-template-columns:1fr 1fr 1fr}
+.booking-item{padding:12px 8px;text-align:center;border-right:1px solid var(--lgrey)}
+.booking-item:last-child{border-right:none}
+.booking-label{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);margin-bottom:5px}
+.booking-covers{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--ivy);line-height:1}
+.booking-covers.busy{color:#c0392b}
+.booking-covers.quiet{color:var(--grey)}
+.booking-covers.na{font-size:16px;color:var(--lgrey)}
 </style>
 <!-- 86LIST:["whispering angel chateau d esclans"]:86LIST -->
 <!-- BRIEFING:{} :BRIEFING -->
@@ -168,6 +182,27 @@ nav button.act{color:var(--gold);border-bottom-color:var(--gold)}
         <span class="briefing-time" id="briefing-time"></span>
       </div>
       <div class="briefing-body" id="briefing-body"></div>
+    </div>
+    <div class="bookings-card" id="bookings-card">
+      <div class="bookings-header">
+        <span>📅</span>
+        <h3>Today's Covers</h3>
+        <span class="bookings-date" id="bookings-date"></span>
+      </div>
+      <div class="bookings-grid">
+        <div class="booking-item">
+          <div class="booking-label">Breakfast</div>
+          <div class="booking-covers na" id="bk-breakfast">—</div>
+        </div>
+        <div class="booking-item">
+          <div class="booking-label">Lunch</div>
+          <div class="booking-covers na" id="bk-lunch">—</div>
+        </div>
+        <div class="booking-item">
+          <div class="booking-label">Dinner</div>
+          <div class="booking-covers na" id="bk-dinner">—</div>
+        </div>
+      </div>
     </div>
     <div class="home-hero">
       <h2>Good evening, team.</h2>
@@ -1076,10 +1111,36 @@ function renderBriefing(data){
   }
 }
 
+function renderBookings(data){
+  var bookings=data?data.bookings:null;
+  var today=new Date().toLocaleDateString('en-IE',{weekday:'short',day:'numeric',month:'short'});
+  var dateEl=document.getElementById('bookings-date');
+  if(dateEl)dateEl.textContent=today;
+
+  function setCovers(id, val){
+    var el=document.getElementById(id);
+    if(!el)return;
+    if(val===null||val===undefined){
+      el.textContent='—';
+      el.className='booking-covers na';
+    }else{
+      el.textContent=val;
+      el.className='booking-covers'+(val>=200?' busy':val<50?' quiet':'');
+    }
+  }
+
+  if(bookings){
+    setCovers('bk-breakfast', bookings.breakfast);
+    setCovers('bk-lunch', bookings.lunch);
+    setCovers('bk-dinner', bookings.dinner);
+  }
+}
+
 async function refreshFromAPI(){
   const data=await fetchStatus();
   render86Board(data);
   renderBriefing(data);
+  renderBookings(data);
 }
 
 function init(){buildList();refreshFromAPI();}
